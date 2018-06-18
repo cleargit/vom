@@ -1,0 +1,52 @@
+version: '3'
+services:
+  nginx:
+   container_name: m-nginx
+   image: nginx:1.13
+   restart: always
+   ports:
+   - 80:80
+   - 443:443
+   volumes:
+   - ./nginx/conf.d/nginx.conf:/etc/nginx/nginx.conf:ro #nginx.conf配置文件
+   - /var/www/arepoforyourproject:/usr/share/nginx/html #页面映射
+   - ./nginx/conf.d/my:/etc/nginx/conf.d
+    
+  mysql:
+   container_name: m-mysql
+   image: mysql:5.7
+   environment:
+    MYSQL_DATABASE: test
+    MYSQL_ROOT_PASSWORD: root
+    MYSQL_ROOT_HOST: '%'
+   ports:
+   - "3306:3306"
+   volumes:
+   - /usr/local/data:/var/lib/mysql #数据映射到宿主机
+   - ./mysql:/etc/mysql/conf.d #mysql配置文件 防止utfmb4 乱码
+   restart: always
+
+  redis:
+   container_name: m-redis
+   image: redis:3.2
+   ports:
+   - "6379:6379"
+   restart: always
+
+  app:
+    restart: always
+    build: ./app
+    working_dir: /app
+    volumes:
+      # - /etc/localtime:/etc/localtime
+      # - /etc/timezone:/etc/timezone:ro #docker默认0时区 改为东八区
+      - ./app:/app
+      - /var/log:/src #输出日志文件
+      - ~/.m2:/root/.m2
+    expose:
+      - "8080"
+    depends_on:
+      - redis
+      - nginx
+      - mysql
+    command: mvn clean spring-boot:run -Dspring-boot.run.profiles=prod

@@ -1,0 +1,24 @@
+.article-detail-title {
+    text-align: center;
+}
+.article-detail-item{
+    padding: 16px;
+    margin: 8px;
+}
+.article-detail-item > span{
+    margin: 0 10px;
+    font-size: 16px;
+}
+.cc{
+    display: none;
+    position: absolute;
+    font-size: 20px;
+    top: 20px;
+}
+
+@media (min-width: 992px) {
+    .cc{
+        left: 26%;
+        top: 50px;
+    }
+}

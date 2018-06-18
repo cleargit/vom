@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="../plugins/jQuery/jQuery-2.2.0.min.js"></script>
+    <link href="/blog/css/bootstrap.min.css" rel="stylesheet">
+    <script src="/blog/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="../plugins/layui/css/layui.css">
+</head>
+
+<body>
+
+<div class="box">
+    <blockquote class="layui-elem-quote title">
+        <input type="checkbox" id="select" >全选
+        <button class="layui-btn" id="delect" style="margin-left: 40px"><i class="layui-icon">&#xe640;</i>删除图片</button>
+        <button class="layui-btn upload-img" id="upload" style="margin-left: 40px"><i class="layui-icon">&#xe67c;</i>上传图像</button>
+    </blockquote>
+
+
+    <div class="row">
+
+    </div>
+</div>
+<form enctype="multipart/form-data" id="upload-form">
+    <input class="layui-upload-file" name="file" type="file" id="upload-file">
+</form>
+<script>
+
+    init();
+
+    $("#select").click(function(){
+        if(this.checked){
+            $("[name=chick]").prop("checked",true);}
+        else{ $("[name=chick]").prop("checked",false);}
+    });
+
+    $('.upload-img').click(function () {
+        $('#upload-file').click()
+    })
+    $('#upload-file').change(function () {
+        var data = new FormData($("#upload-form")[0]);
+        $.ajax({
+            type: 'post',
+            data: data,
+            async:true,
+            url:'../myupload.do',
+            cache: false,
+            contentType: false,
+            processData: false,
+            success:function(result)
+            {
+               if (result.error==0){
+                   layer.msg("上传成功")
+               } else {
+                   layer.msg("上传失败")
+               }
+
+            }
+        })
+    });
+    $('#delect').click(function () {
+      var deleteid=new Array()
+        $("input[name='chick']").each(function () {
+            if($(this).is(":checked")){
+                deleteid.push($(this).val())
+            }
+        })
+        if (deleteid.length>0){
+            deleteid=JSON.stringify(deleteid);
+         $.ajax({
+             type:'post',
+             data:{list:deleteid},
+             url:'/delect.do',
+             success:function (result) {
+                 alert(result.data);
+                 init();
+             }
+         })
+        }
+    })
+    function init() {
+        $('.row').hide()
+        $('.row').empty();
+        $.ajax({
+            type:'get',
+            async:true,
+            url:'/getimg.do',
+            success:function (result) {
+                if (result.code==0){
+                    var data=result.data;
+                    var perfix="http://mybucket99.oss-cn-shenzhen.aliyuncs.com/"
+                    for (var i = 0; i <data.length ; i++) {
+                        if (i==0){
+                            continue;
+                        }
+                        var html='<div class="col-xs-6 col-sm-4 col-md-2">' +
+                                '<a class="thumbnail" href="\'+perfix+data[i].key+\'">'+
+                                '<img style="height: 220px" src="'+perfix+data[i].key+'">'+
+                                '</a>'+
+                                '<input name="chick" type="checkbox" value="'+data[i].key+'"> check me'+
+                                 '</div>'
+
+                        $('.row').append(html);
+                    }
+                    $('.row').fadeIn();
+                }
+
+
+            }
+        })
+    }
+    //end
+</script>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+    <title>userinfo</title>
+  <link rel="stylesheet" href="../plugins/layui/css/layui.css">
+  <script type="text/javascript" src="../plugins/layui/layui.js"></script>
+</head>
+<body>
+
+<div class="layui-tab layui-tab-brief main-tab-container">
+    <ul class="layui-tab-title main-tab-title">
+      <li class="layui-this">信息</li>
+      <div class="main-tab-item">信息</div>
+    </ul>
+    <div class="layui-tab-content">
+       <form class="layui-form">
+        <div class="layui-tab-item layui-show">
+          <input type="hidden" name="id" value="">
+          <div class="layui-form-item">
+            <label class="layui-form-label">id</label>
+            <div class="layui-input-inline input-custom-width">
+              <input type="text" id="id" name="id" value="" lay-verify="required" autocomplete="off" placeholder="请输入" class="layui-input" readonly>
+            </div>
+            <div class="layui-form-mid layui-word-aux">当前id号</div>
+          </div>
+            <div class="layui-form-item">
+            <label class="layui-form-label">name</label>
+            <div class="layui-input-inline input-custom-width">
+              <input type="text"  id="name" name="name" value="" lay-verify="required" autocomplete="off" placeholder="请输入" class="layui-input">
+            </div>
+          </div>
+
+          <div class="layui-form-item">
+            <label class="layui-form-label">选择</label>
+            <div class="layui-input-inline" >
+              <!--<option value="">请选择</option><option value="1">vip用户</option><option value="2">管理员</option><option value="3">普通用户></option>-->
+              <select  id="role_id" name="role_id"  lay-verify="required">   </select>
+            </div>
+
+          </div>
+
+          <div class="layui-form-item">
+            <div class="layui-input-block">
+              <button class="layui-btn" lay-submit="" lay-filter="demo">立即提交</button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+</div>
+<script type="text/javascript">
+layui.use('form', function(){
+  var form = layui.form,$=layui.jquery;
+  $.post('/role/role.do',function (result) {
+
+      // $('#role_id').append("   <option value=\"\">请选择</option><option value=\"1\">vip用户</option><option value=\"2\">管理员</option><option value=\"3\">普通用户></option>")
+      for (var i=0;i<result.length;i++){
+          var html='<option value='+result[i].id+'>'+result[i].name+ '</option>'
+          $('#role_id').append(html)
+      }
+      form.render('select');
+
+  })
+  //监听提交
+  form.on('submit(demo)', function(data){
+       loading = layer.load(2, {
+          shade: [0.2,'#000'] //0.2透明度的白色背景
+        });
+       var field=data.field;
+       $.post('/user/edit.do',{id:field.id,name:field.name,list:field.role_id},function (result) {
+           layer.close(loading);
+           layer.msg(result.data,{icon: 1, time: 1000});
+       }).error(function () {
+           layer.close(loading);
+           layer.msg("无权限提交");
+       });
+
+
+    return false;
+  });
+});
+</script>
+</body>
+</html>

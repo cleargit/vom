@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="telephone=no">
+<title>Sham后台管理</title>
+
+<link rel="stylesheet" href="plugins/layui/css/layui.css">
+<!--&lt;!&ndash; Bootstrap 3.3.5 &ndash;&gt;-->
+<!--<link rel="stylesheet" href="plugins/bootstrap/css/bootstrap.css">-->
+	<link rel="stylesheet" href="plugins/layui/css/global.css">
+<!-- 字体图标 http://fontawesome.dashgame.com/ -->
+<link rel="stylesheet" href="plugins/font-awesome-4.7.0/css/font-awesome.min.css">
+
+<!-- Tab -->
+<link rel="stylesheet" href="plugins/bootstrap-multitabs/css/style.css">
+<!-- 自写 -->
+<link rel="stylesheet" href="css/css.css">
+	<link rel="stylesheet" href="css/main.css" />
+    <!--Pace - Page Load Progress Par [OPTIONAL]-->
+    <link href="plugins/pace/pace.min.css" rel="stylesheet">
+    <script src="plugins/pace/pace.min.js"></script>
+	
+</head>
+<body>
+<div class="layui-layout layui-layout-admin">
+
+	<!--div class="layui-header header header-demo"-->
+	<div class="layui-header shu-header">
+		<!--头部区域-->
+		<div class="shu-logo">
+			<img src="images/logo.png" width="200px">
+			<!--<a href="#">Sham</a>-->
+		</div>
+		<div class="shu-an">
+			<div class="admin-side-toggle">
+				<i class="fa fa-bars"></i>
+			</div>
+		</div>
+		<div class="shu-header-right">
+		<ul class="layui-nav">
+			<li class="layui-nav-item">
+				<a href="/blog/index.html">浏览博客</a>
+			</li>
+			<li class="layui-nav-item">
+				<a href="javascript:;" class="admin-header-user">
+					<img src="images/0.jpg" />
+					<span>Admin</span>
+				</a>
+				<dl class="layui-nav-child">
+					<!--<dd>-->
+						<!--<a href="javascript:;"><i class="fa fa-user-circle-o" style="font-size:10px;"></i> 个人信息</a>-->
+					<!--</dd>-->
+					<!--<dd>-->
+						<!--<a href="javascript:;"><i class="fa fa-cog" style="padding-right: 1px;"></i> 设置</a>-->
+					<!--</dd>-->
+					<dd>
+						<a href="logout.do"><i class="fa fa-reply"></i> 注销</a>
+					</dd>
+				</dl>
+			</li>
+		</ul>
+		<ul class="shu-mobile">
+			<li class="layui-nav-item">
+				<a href="/logout.do"><i class="fa fa-sign-out" aria-hidden="true"></i> 注销</a>
+			</li>
+		</ul>
+	</div>
+	</div>
+	
+	<div class="layui-side layui-bg-black shu-left">
+		<div class="layui-side-scroll">
+			<ul class="layui-nav layui-nav-tree" lay-filter="ce">
+				<!-- 侧边导航: <ul class="layui-nav layui-nav-tree layui-nav-side"> -->
+				<li class="layui-nav-item layui-nav-itemed"> <a class="multitabs" href="pages/home.html" data-iframe="true" data-content="main"><i class="fa fa-home"></i> 管理面板</a>
+				<li class="layui-nav-item"> <a href="javascript:;"><i class="fa fa-user-o"></i> 会员管理</a>
+					<dl class="layui-nav-child">
+						<dd><a class="multitabs" href="pages/userlist.html" data-content="info"  data-iframe="true"> 会员列表</a></dd>
+						<dd><a class="multitabs" href="pages/rolelist.html" data-content="info" data-iframe="true" > 角色权限</a></dd>
+						<dd><a class="multitabs" href="pages/permissionlist.html" data-content="info" data-iframe="true" > 权限管理</a></dd>
+					</dl>
+				</li>
+				<li class="layui-nav-item"> <a href="javascript:;"><i class="fa fa-commenting"></i> 评论管理</a>
+					<dl class="layui-nav-child">
+						<dd><a class="multitabs" href="pages/bbslist.html" data-content="info"  data-iframe="true">评论列表</a></dd>
+					</dl>
+				</li>
+				<li class="layui-nav-item"> <a href="javascript:;"><i class="fa fa-book"></i> 博客管理</a>
+					<dl class="layui-nav-child">
+						<dd><a class="multitabs" href="pages/bloglist.html" data-content="info"  data-iframe="true">博客列表</a></dd>
+						<dd><a class="multitabs" href="pages/edit.html" data-content="info" data-iframe="true">添加博客</a></dd>
+					</dl>
+				</li>
+				<li class="layui-nav-item"> <a href="javascript:;"><i class="fa fa-bookmark-o"></i> 资源管理</a>
+					<dl class="layui-nav-child">
+						<dd><a class="multitabs" href="pages/imgmanger.html" data-content="info" data-iframe="true">图片管理</a></dd>
+						<dd><a class="multitabs" href="pages/index-2.html" data-content="info" data-iframe="true">接口管理</a></dd>
+					</dl>
+				</li>
+				<li class="layui-nav-item" ><a href="javascript:;"> <i class="fa fa-tachometer"></i> 系统日志</a>
+					<dl class="layui-nav-child">
+						<dd><a class="multitabs" href="pages/logs.html" data-content="info" data-iframe="true">日志信息</a></dd>
+						<dd><a class="multitabs" href="pages/about.html" data-content="info">关于</a></dd>
+					</dl>
+				</li>
+
+			</ul>
+		</div>
+	</div>
+	
+
+	 
+	<!-- 内容主体区域 --> 
+	<div class="shu-body content-wrapper" id="content_wrapper"></div>
+	 
+	
+	<div class="layui-footer shu-footer"> 
+		<!-- 底部固定区域 --> 
+		<div class="layui-main">
+			<p>sham &copy;
+
+			</p>
+		</div>
+	</div>
+	<div class="site-tree-mobile layui-hide">
+		<i class="layui-icon">&#xe602;</i>
+	</div>
+	<div class="site-mobile-shade"></div>
+</div>
+<script src="plugins/layui/layui.js"></script>
+<!-- jQuery 2.2.0 -->
+<script src="plugins/jQuery/jQuery-2.2.0.min.js"></script>
+<!-- Bootstrap 3.3.5 -->
+<!--<script src="plugins/bootstrap/js/bootstrap.min.js"></script>-->
+
+<script src="https://img.hcharts.cn/highcharts/highcharts.js"></script>
+<script src="https://img.hcharts.cn/highcharts/modules/exporting.js"></script>
+<script src="https://img.hcharts.cn/highcharts-plugins/highcharts-zh_CN.js"></script>
+<!-- Slimscroll -->
+<script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
+<!-- Multi Tabs -->
+
+<script src="plugins/bootstrap-multitabs/js/multitabs.js"></script>
+
+<script type="text/javascript" src="../plugins/auth.js"></script>
+<script>
+//注意：导航 依赖 element 模块，否则无法进行功能性操作
+layui.use(['element','layer'], function(){
+	var element = layui.element;
+
+	
+	//定义侧边栏
+	$('.admin-side-toggle').on('click', function() {
+		var sideWidth = $('.layui-side').width();
+		if(sideWidth === 200) {
+            $('.layui-side').css({width: '0'});
+            $('.layui-footer').css({left: '0'});
+            $(".shu-body").animate({"margin-left":"0px"});
+		} else {
+			$(".shu-body").animate({"margin-left":"200px"});
+			$('.layui-footer').animate({left: '200px'});
+			$('.layui-side').css({width: '200px'});
+		}
+	});
+	//定义侧边栏END
+	//手机设备的简单适配
+	var treeMobile = $('.site-tree-mobile'),
+		shadeMobile = $('.site-mobile-shade');
+	treeMobile.on('click', function() {
+		$('body').addClass('site-mobile');
+	});
+	shadeMobile.on('click', function() {
+		$('body').removeClass('site-mobile');
+	});
+
+});
+
+
+</script>
+
+<!--tab-->
+<script>
+    var multitabs = $('#content_wrapper').multitabs();
+</script>
+
+<!--tab end-->
+</body>
+</html>

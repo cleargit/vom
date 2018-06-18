@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <style type="text/css">
+        #divDemo{
+          margin-left: 70px;
+        }
+    </style>
+</head>
+<script src="../plugins/wangEditor.min.js"></script>
+<script src="../plugins/jQuery/jQuery-2.2.0.min.js"></script>
+<script type="text/javascript" src="../plugins/layui/layui.js"></script>
+<link rel="stylesheet" href="../plugins/layui/css/layui.css">
+<body>
+<form class="layui-form" style="margin-top: 30px" enctype="multipart/form-data">
+    <div class="layui-form-item" >
+        <label class="layui-form-label">标题</label>
+        <div class="layui-input-block">
+            <input class="layui-input" id="title" placeholder="标题" lay-verify="required" type="text" autocomplete="off" >
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">简介</label>
+        <div class="layui-input-block">
+            <input class="layui-input" id="intro" placeholder="简介" lay-verify="required" type="text" autocomplete="off">
+        </div>
+    </div>
+</form>
+
+<div id="divDemo"><p>欢迎使用<b>wangEditor 富文本编辑器</b>，请输入内容...</p></div>
+<button class="layui-btn" id="save" style="margin-top: 10px;margin-left: 70px">添加博客</button>
+<button class="layui-btn" id="edit" style="margin-top: 10px">修改博客</button>
+<script type="text/javascript">
+    var E = window.wangEditor
+    var editor = new E('#divDemo')
+    editor.customConfig.uploadImgShowBase64 = true
+    editor.customConfig.uploadFileName = 'file'
+    editor.customConfig.uploadImgServer = '/myupload.do'
+    editor.create()
+    //设置高度
+    $(".w-e-text-container").css("height","600px");
+    layui.use(['form'],function () {
+        var $=layui.jquery;
+        var id=window.location.href.split('?')[1];
+        if(id!=null) {
+            $.ajax({
+                type: 'GET',
+                data: {id: id},
+                url: '/blog/findone.do?' + id,
+                success: function (result) {
+                    if (result.code == 0) {
+                        var data = result.data;
+                        $('#title').val(data.title);
+                        $('#intro').val(data.intro);
+                        editor.txt.html(data.content);
+                    }
+                }
+            });
+        }
+
+
+        $("#save").click(function () {
+            var content=editor.txt.html();
+            var title=$("#title").val();
+            var intro=$("#intro").val();
+            $.post('/blog/add.do',{title:title,type:2,content:content,intro:intro},function (data) {
+                if (data.code==0)
+                {
+                    layer.msg(data.data);
+                }else {
+                    layer.msg("你不是管理员噢");
+                }
+            }).error(function () {
+                layer.msg("你不是管理员噢");
+            });
+        });
+        $("#edit").click(function () {
+            var content=editor.txt.html();
+            var title=$("#title").val();
+            var intro=$("#intro").val();
+            $.post('/blog/edit.do',{id:id,title:title,type:2,content:content,intro:intro},function (data) {
+                if (data.code==0)
+                {
+                    layer.msg(data.data);
+                }else {
+                    layer.msg("你不是管理员噢");
+                }
+            }).error(function () {
+                layer.msg("你不是管理员噢");
+            });
+        });
+
+
+    });
+</script>
+</body>
+</html>

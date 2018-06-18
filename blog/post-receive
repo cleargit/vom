@@ -1,0 +1,7 @@
+unset GIT_DIR
+DeployPath="/var/www/blog"
+echo "==============================================="
+cd $DeployPath
+git fetch --all
+git reset --hard origin/master
+

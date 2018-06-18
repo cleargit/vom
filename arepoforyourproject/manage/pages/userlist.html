@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="../plugins/layui/css/layui.css">
+    <script type="text/javascript" src="../plugins/layui/layui.js"></script>
+</head>
+<body>
+
+<table class="layui-hide" id="test" lay-filter="demo"></table>
+
+<script type="text/html" id="barDemo">
+    <!--<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>-->
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+<script>
+    layui.use(['layer','form','table'], function(){
+        var layer = layui.layer
+            ,$=layui.jquery
+            ,table = layui.table
+            ,form=layui.form;
+        table.render({
+            elem: '#test'
+            ,cellMinWidth: 80
+            ,url: '../user/list.do' //数据接口
+            ,page: true //开启分页
+            ,cols: [[ //表头
+                {type: 'checkbox'}
+                ,{field: 'uid', title: 'ID', sort: true}
+                ,{field: 'username', title: '用户名'}
+                ,{field: 'name', title: '名字'}
+                ,{field: 'state', title: '黑名单'}
+                ,{field: 'role', title: '角色'}
+                ,{field:'lock', title:'是否锁定', templet: '#checkboxTpl', unresize: true}
+                ,{fixed: 'right', align:'center', toolbar: '#barDemo'}
+            ]]
+        });
+        //监听锁定操作
+        form.on('checkbox(lockDemo)', function(obj){
+            layer.tips(this.value + ' ' + this.name + '：'+ obj.elem.checked, obj.othis);
+        });
+        //监听工具条
+        table.on('tool(demo)', function(obj){ //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+            var data = obj.data //获得当前行数据
+                ,layEvent = obj.event; //获得 lay-event 对应的值
+            if(layEvent === 'detail'){
+                layer.msg("查看")
+            } else if(layEvent === 'del'){
+                layer.confirm('真的删除行么', function(index){
+
+                    $.post('/user/delect.do',{id:data.uid},function (result) {
+                        if (result.code==0)
+                        {
+                            layer.msg(result.data,{icon: 1, time: 1000});
+                            obj.del(); //删除对应行（tr）的DOM结构
+                            layer.close(index);
+                        }else {
+                            layer.msg("无权限这样做", {icon: 2, anim: 6, time: 1000})
+                        }
+                    }).error(function () {
+                        layer.msg("无权限这样做", {icon: 2, anim: 6, time: 1000})
+                    });
+
+                });
+            } else if(layEvent === 'edit'){
+                layer.open({
+                    type: 2,
+                    title: false,
+                    shadeClose: true,
+                    shade: 0.8,
+                    scrollbar: false,
+                    area: ['500px', '350px'],
+                    content: ['userinfo','no'],
+                    success:function (layero,index) {
+                    var body = layer.getChildFrame('body', index);
+                        body.contents().find("#id").val(data.uid);
+                        body.contents().find("#name").val(data.name);
+                    }
+                });
+            }
+        });
+    });
+
+</script>
+
+<script type="text/html" id="checkboxTpl">
+    <input type="checkbox" name="lock" value="{{d.uid}}" title="锁定" lay-filter="lockDemo" {{ d.state == 1 ? 'checked' : '' }}>
+</script>
+</body>
+
+</html>

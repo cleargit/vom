@@ -1,0 +1,215 @@
+body{
+    background: #ebebeb;
+    width: 100%;
+    height: 100%;
+}
+.shadow {
+    box-shadow: 0 2px 10px 0 rgba(0,0,0,.1);
+    border-radius: 10px;
+}
+.shadow2{
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.12);
+}
+.blog-container{
+    position: relative;
+    width: 100%;
+}
+.blog-main{
+    position: relative;
+    margin: 0 17px;
+
+}
+.blog-left{
+    z-index: 1000;
+    width: 32%;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    position: fixed;
+    display: none;
+    float: left;
+}
+.blog-right{
+     width: 100%;
+    /* float: right; */
+    margin-top: 20px;
+    position: relative;
+    left: 0;
+    display: none;
+}
+.header{
+    padding: 24px;
+
+}
+.header >a{
+    font-size: 16px;
+    margin:  0 10px;
+    overflow: auto;
+}
+#toggle{
+    float: right;
+   margin-right: 17px;
+    margin-top: 7px;
+}
+.blog-nav{
+    display: none;
+}
+
+@media (max-width: 991px) {
+    .blog-nav{
+        display: block;
+    }
+}
+@media (min-width: 992px) {
+    .blog-left{
+        display: block;
+    }
+}
+@media (min-width: 992px) {
+    .blog-right{
+        width: 68%;
+        padding: 0;
+        left: 32%;
+    }
+}
+.amain{
+    padding: 35px;
+    background: #ffffff;
+    margin-bottom: 35px;
+    position: relative;
+    overflow: hidden;
+}
+.aheader{
+    text-align: center;
+}
+.aheader .atitle{
+    font-size: 2.5em;
+    line-height: 1em;
+}
+.acontent{
+    margin: 30px 5px;
+    font-size: 1.5em;
+}
+@media (min-width: 1194px) {
+    .carousel-inner{
+        height: 500px;
+    }
+}
+.item > img{
+    width: 100%;
+
+}
+
+#ntoggle{
+    margin-top: 50px;
+    display: none;
+    text-align: center;
+    font-size: 2.5em;
+}
+.floot{
+    height: calc(100% - 98px);
+    display: table;
+    width: 100%;
+
+}
+.floot .floot-box{
+    vertical-align: middle;
+    display: table-cell;
+    height: 100%;
+   font-size: 2.5em;
+    padding: 0 24px 0 84px;
+}
+@media (max-width: 1250px) {
+    .floot .floot-box {
+        padding: 0 0 0 30px ;
+    }
+}
+.floot .floot-box > a{
+    margin-right: 10px;
+}
+.clear{
+    clear: both;
+}
+.floot .floot-about {
+    position: absolute;
+    bottom: 10%;
+}
+.layui-flow-more{
+    text-align: center;
+    padding: 24px;
+    font-size: 20px;
+}
+.author{
+    margin: 10px;
+}
+#edit{
+
+    overflow: hidden;
+}
+@media (min-width: 768px) {
+    #edit{
+        width: 80%;
+    }
+}
+.reply{
+    position: absolute;
+    margin: 10px;
+    right: 0;
+}
+@media (min-width: 768px) {
+    .reply{
+        position: absolute;
+        margin: 10px;
+        right: 20%;
+    }
+}
+.blog-comment li {
+    border-bottom: 1px dotted #01AAED;
+    padding: 15px 0 10px 0;
+}
+.comment-parent > img {
+    width: 45px;
+    height: 45px;
+    margin: 5px 5px 5px 0;
+    position: absolute;
+    border-radius: 50px;
+}
+.blog-comment .content, .blog-comment .info, .blog-comment .replycontainer {
+    margin-left: 53px;
+}
+.blog-comment .content
+{
+    min-height: 53px;
+    font-size: 14px;
+}
+.blog-comment .info .dh >a{
+    margin-right: 10px;
+}
+.blog-comment .info .username {
+    color: #01AAED;
+    font-size: 16px;
+}
+.blog-comment .info span, .blog-comment .info a img {
+    padding-right: 5px;
+    font-size: 14px;
+    height: 16px;
+}
+.blog-comment .info .dh {
+    margin-left: 10%;
+}
+.comment-child {
+    margin-left: 53px;
+    min-height: 50px;
+}
+.comment-child > img {
+    width: 40px;
+    height: 40px;
+    margin: 5px 5px 5px 0;
+    position: absolute;
+    border-radius: 50px;
+}
+.contentchild
+{
+    margin-left: 7px;
+}
+li {list-style-type:none;}
