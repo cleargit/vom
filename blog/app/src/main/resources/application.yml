@@ -75,6 +75,6 @@ spring:
                 enable: true
                 required: true
     profiles:
-      active: dev
+      active: prod
 server:
   port: 8080
